@@ -17,7 +17,6 @@ LOG_FILE="logs/sync_qiita_all_to_es.log"
 
   python3 scripts/fetch_qiita_articles.py \
     --user "${QIITA_USER}" \
-    --out tmp/qiita_articles.json \
     --markdown-dir tmp/qiita_markdown
 
   python3 scripts/import_qiita_markdown_to_es.py \
