@@ -15,6 +15,9 @@ LOG_FILE="logs/sync_qiita_all_to_es.log"
 {
   echo "[$(date '+%F %T')] sync start"
 
+  rm -rf tmp/qiita_markdown
+  mkdir -p tmp/qiita_markdown
+
   python3 scripts/fetch_qiita_articles.py \
     --user "${QIITA_USER}" \
     --markdown-dir tmp/qiita_markdown
