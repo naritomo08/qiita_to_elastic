@@ -36,7 +36,6 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Fetch Qiita articles by user.")
     parser.add_argument("--user", default="naritomo08")
     parser.add_argument("--tag", default=None)
-    parser.add_argument("--out", default="tmp/qiita_articles.json")
     parser.add_argument("--markdown-dir", default="tmp/qiita_markdown")
     parser.add_argument("--per-page", type=int, default=100)
     parser.add_argument("--max-pages", type=int, default=10)
@@ -66,33 +65,28 @@ def main() -> int:
 
         time.sleep(args.sleep)
 
-    out = Path(args.out)
-    out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(all_items, ensure_ascii=False, indent=2), encoding="utf-8")
+    md_dir = Path(args.markdown_dir)
+    md_dir.mkdir(parents=True, exist_ok=True)
 
-    if args.markdown_dir:
-        md_dir = Path(args.markdown_dir)
-        md_dir.mkdir(parents=True, exist_ok=True)
+    for item in all_items:
+        tags = [t.get("name", "") for t in item.get("tags", [])]
 
-        for item in all_items:
-            tags = [t.get("name", "") for t in item.get("tags", [])]
+        header = "\n".join([
+            "---",
+            f"title: {json.dumps(item.get('title', ''), ensure_ascii=False)}",
+            f"url: {item.get('url', '')}",
+            f"created_at: {item.get('created_at', '')}",
+            f"updated_at: {item.get('updated_at', '')}",
+            "tags: [" + ", ".join(tags) + "]",
+            "---",
+            "",
+        ])
 
-            header = "\n".join([
-                "---",
-                f"title: {json.dumps(item.get('title', ''), ensure_ascii=False)}",
-                f"url: {item.get('url', '')}",
-                f"created_at: {item.get('created_at', '')}",
-                f"updated_at: {item.get('updated_at', '')}",
-                "tags: [" + ", ".join(tags) + "]",
-                "---",
-                "",
-            ])
-
-            body = item.get("body") or ""
-            (md_dir / safe_name(item)).write_text(header + body, encoding="utf-8")
+        body = item.get("body") or ""
+        (md_dir / safe_name(item)).write_text(header + body, encoding="utf-8")
 
     print(f"fetched {len(all_items)} item(s)")
-    print(f"wrote {out}")
+    print(f"wrote markdown files to {md_dir}")
     return 0
 
 if __name__ == "__main__":
