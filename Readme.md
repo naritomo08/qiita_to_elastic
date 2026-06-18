@@ -55,6 +55,7 @@ curl -s "http://elastic1:9200/qiita-articles?pretty"
 ## 3. Qiita全記事取得スクリプト
 
 ```bash
+cat > scripts/fetch_qiita_articles.py <<'EOF'
 #!/usr/bin/env python3
 import argparse
 import json
@@ -405,6 +406,7 @@ python3 scripts/import_qiita_markdown_to_es.py \
 ## 6. 自動同期シェル
 
 ```bash
+cat > scripts/sync_qiita_all_to_es.sh <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
 
