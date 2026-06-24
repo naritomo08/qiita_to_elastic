@@ -471,7 +471,7 @@ crontab -e
 設定例
 
 ```bash
-5 3 * * * export QIITA_USER=<Qiitaユーザー名> && cd /home/naritomo/qiita-book-builder && ./scripts/sync_qiita_all_to_es.sh
+5 3 * * * export QIITA_USER=<Qiitaユーザー名> && cd ~/qiita_to_elastic && ./scripts/sync_qiita_all_to_es.sh
 ```
 
 ## 8. Elasticsearch確認
