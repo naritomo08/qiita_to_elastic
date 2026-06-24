@@ -15,6 +15,10 @@ flowchart LR
 
 `キーワードが、どの記事の title/body/tags に含まれているか検索できる`
 
+事前に以下リンク先を参考にElasticSearch構築を実施していること。
+
+https://qiita.com/naritomo08/items/8368c2f57803e471cc2f
+
 ## 1. ディレクトリ作成
 
 ```bash
@@ -379,7 +383,7 @@ chmod +x scripts/import_qiita_markdown_to_es.py
 
 ```bash
 python3 scripts/fetch_qiita_articles.py \
-  --user naritomo08 \
+  --user <Qiitaユーザー名> \
   --markdown-dir tmp/qiita_markdown
 ```
 
@@ -389,7 +393,7 @@ Elasticsearchへ完全同期
 python3 scripts/import_qiita_markdown_to_es.py \
   --markdown-dir tmp/qiita_markdown \
   --es-url http://elastic1:9200 \
-  --index qiita-articles \
+  --index <Qiitaユーザー名> \
   --user naritomo08 \
   --delete-missing
 ```
@@ -448,6 +452,7 @@ chmod +x scripts/sync_qiita_all_to_es.sh
 実行：
 
 ```bash
+export QIITA_USER=<Qiitaユーザー名>
 ./scripts/sync_qiita_all_to_es.sh
 ```
 
@@ -466,7 +471,7 @@ crontab -e
 設定例
 
 ```bash
-5 3 * * * cd /home/naritomo/qiita-book-builder && ./scripts/sync_qiita_all_to_es.sh
+5 3 * * * export QIITA_USER=<Qiitaユーザー名> && cd /home/naritomo/qiita-book-builder && ./scripts/sync_qiita_all_to_es.sh
 ```
 
 ## 8. Elasticsearch確認
