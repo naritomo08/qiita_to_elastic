@@ -3,3 +3,19 @@ tmp/*
 logs/*
 !logs/.gitkeep
 .DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local environment variables / secrets
+.env
+.env.*
+!.env.example
+
+# Editor files
+*.swp
+*.swo
+*~

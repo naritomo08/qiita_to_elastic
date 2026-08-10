@@ -44,15 +44,15 @@ def main() -> int:
 
     token = os.environ.get("QIITA_TOKEN")
 
-    if args.tag:
-        query = urllib.parse.quote(f"user:{args.user} tag:{args.tag}")
-    else:
-        query = urllib.parse.quote(f"user:{args.user}")
-
     all_items = []
 
     for page in range(1, args.max_pages + 1):
-        url = f"{API_BASE}/items?page={page}&per_page={args.per_page}&query={query}"
+        if args.tag:
+            query = urllib.parse.quote(f"user:{args.user} tag:{args.tag}")
+            url = f"{API_BASE}/items?page={page}&per_page={args.per_page}&query={query}"
+        else:
+            user = urllib.parse.quote(args.user, safe="")
+            url = f"{API_BASE}/users/{user}/items?page={page}&per_page={args.per_page}"
         items = request_json(url, token)
 
         if not items:
