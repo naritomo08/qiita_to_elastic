@@ -540,3 +540,7 @@ body : "Iceberg" and body : "Flink"
 なら、Iceberg と Flink の両方に触れている記事を探せます。
 
 これで、Qiita全記事を Elasticsearch上の技術ナレッジDB として完全同期できます。
+
+## 関連Qiita記事
+
+- [Qiita記事をElasticsearchへ取り込み、検索Webアプリで参照できるようにする](https://qiita.com/naritomo08/items/81fab5b1ddea6f27547a)
